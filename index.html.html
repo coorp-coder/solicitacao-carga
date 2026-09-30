@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Solicitação de Envio de Carga</title>
+<style>
+:root{--bg:#F1F2F4;--card:#fff;--tx:#172B4D;--mut:#626F86;--bd:#B3B9C4;--bd2:#DCDFE4;--pri:#0C66E4;--priH:#0055CC;--foc:#388BFF;--sub:#F7F8F9;--err:#C9372C;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101214;--card:#1D2125;--tx:#B6C2CF;--mut:#8C9BAB;--bd:#596773;--bd2:#38414A;--pri:#579DFF;--priH:#85B8FF;--sub:#22272B;--err:#F87168}}
+:root[data-theme="dark"]{--bg:#101214;--card:#1D2125;--tx:#B6C2CF;--mut:#8C9BAB;--bd:#596773;--bd2:#38414A;--pri:#579DFF;--priH:#85B8FF;--sub:#22272B;--err:#F87168}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.45 -apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+.top{background:var(--card);border-bottom:1px solid var(--bd2);padding:10px 16px;display:flex;gap:10px;align-items:center;color:var(--mut);font-size:13px}
+.logo{width:22px;height:22px;border-radius:4px;background:var(--pri);color:#fff;display:grid;place-items:center;font-weight:700;font-size:12px}
+.wrap{max-width:720px;margin:24px auto;padding:0 12px}
+.card{background:var(--card);border-radius:6px;box-shadow:0 8px 12px #091E4226,0 0 1px #091E424F;padding:24px}
+h1{font-size:20px;font-weight:500;margin:0 0 4px}
+.req{color:var(--mut);font-size:12px;margin:0 0 16px}
+h2{font-size:12px;font-weight:700;color:var(--mut);margin:26px 0 10px;padding-top:14px;border-top:1px solid var(--bd2)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+@media(max-width:560px){.row{grid-template-columns:1fr}}
+.f{margin:0 0 14px}
+label,.lb{display:block;font-size:12px;font-weight:600;color:var(--mut);margin:0 0 4px}
+.rq::after{content:" *";color:var(--err)}
+input[type=text],input[type=tel],input[type=date],input[type=time],input[type=number],select,textarea{width:100%;background:var(--sub);color:var(--tx);border:2px solid var(--bd2);border-radius:3px;padding:7px 8px;font:inherit;min-height:36px}
+input:hover,select:hover,textarea:hover{background:var(--bg)}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--foc);background:var(--card)}
+textarea{min-height:120px;resize:vertical}
+.dim{display:flex;align-items:center;gap:6px}.dim span{color:var(--mut)}
+.chk{display:grid;grid-template-columns:1fr 1fr;gap:6px 16px}
+@media(max-width:560px){.chk{grid-template-columns:1fr}}
+.chk label{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:400;color:var(--tx);margin:0;padding:4px 0;cursor:pointer}
+input[type=checkbox]{width:16px;height:16px;accent-color:var(--pri)}
+#outra{margin-top:6px;display:none}
+.pr{display:flex;flex-wrap:wrap;gap:8px}
+.pr label{margin:0;cursor:pointer}
+.pr input{position:absolute;opacity:0}
+.pr span{display:flex;align-items:center;gap:6px;border:2px solid var(--bd2);border-radius:3px;padding:6px 10px;color:var(--tx);font-weight:500;font-size:13px}
+.pr small{color:var(--mut);font-weight:400}
+.pr input:checked+span{border-color:var(--pri);background:var(--sub)}
+.pr input:focus-visible+span{outline:2px solid var(--foc);outline-offset:1px}
+.ar{font-weight:700;font-size:15px;line-height:1}
+.drop{border:2px dashed var(--bd);border-radius:4px;padding:18px;text-align:center;color:var(--mut);background:var(--sub);cursor:pointer}
+.drop.on{border-color:var(--pri);color:var(--pri)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 0;padding:0;list-style:none}
+.tags li{border:1px solid var(--bd2);border-radius:3px;padding:2px 8px;font-size:12px;color:var(--mut)}
+ul.files{list-style:none;padding:0;margin:8px 0 0}
+ul.files li{display:flex;justify-content:space-between;background:var(--sub);border:1px solid var(--bd2);border-radius:3px;padding:6px 10px;margin-bottom:4px;font-size:13px}
+ul.files button{border:0;background:none;color:var(--mut);cursor:pointer;font-size:16px}
+.act{display:flex;justify-content:flex-end;gap:8px;margin-top:22px;padding-top:16px;border-top:1px solid var(--bd2)}
+button.b{border:0;border-radius:3px;padding:8px 14px;font:inherit;font-weight:500;cursor:pointer;min-height:36px}
+.b.p{background:var(--pri);color:#fff}.b.p:hover{background:var(--priH)}
+.b.s{background:none;color:var(--tx)}.b.s:hover{background:var(--bg)}
+:root[data-theme="dark"] .b.p{color:#101214}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .b.p{color:#101214}}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--tx);color:var(--card);padding:10px 16px;border-radius:4px;display:none;font-weight:500}
+input[readonly]{background:var(--bg);color:var(--mut);cursor:default}
+.err{border-color:var(--err)!important}
+</style>
+</head>
+<body>
+<div class="top"><div class="logo">C</div><span>Logística</span><span>/</span><span>Solicitações de envio</span></div>
+<div class="wrap"><div class="card">
+<h1>Solicitação de Envio de Carga</h1>
+<p class="req">Os campos obrigatórios estão marcados com um asterisco</p>
+
+<div class="f"><label class="rq" for="resumo">Título</label><input type="text" id="resumo" placeholder="Ex.: Envio de 4 caixas para Campinas"></div>
+
+<h2>Dados da coleta</h2>
+<div class="row">
+<div class="f"><label class="rq" for="cl">Local de coleta</label><select id="cl"><option value="">Selecione um endereço salvo</option></select></div>
+<div class="f" id="c1wrap" style="display:none"><label class="rq" for="c1">Nome do local</label><input type="text" id="c1"></div>
+<div class="f"><label class="rq" for="c2">Endereço</label><input type="text" id="c2" readonly></div>
+<div class="f"><label class="rq" for="c3">CEP</label><input type="text" id="c3" readonly inputmode="numeric" maxlength="9" placeholder="00000-000"></div>
+<div class="f"><label class="rq" for="c4">Responsável pela coleta</label><input type="text" id="c4"></div>
+<div class="f"><label for="c5">Telefone</label><input type="tel" id="c5" placeholder="(11) 90000-0000"></div>
+<div class="f"><label class="rq" for="c6">Data desejada</label><input type="date" id="c6"></div>
+<div class="f"><label for="c7">Horário disponível</label><input type="time" id="c7"></div>
+</div>
+
+<h2>Dados da entrega</h2>
+<div class="row">
+<div class="f"><label class="rq" for="el">Destinatário / Empresa</label><select id="el"><option value="">Selecione um endereço salvo</option></select></div>
+<div class="f" id="e1wrap" style="display:none"><label class="rq" for="e1">Nome do destinatário / empresa</label><input type="text" id="e1"></div>
+<div class="f"><label class="rq" for="e2">Endereço de entrega</label><input type="text" id="e2" readonly></div>
+<div class="f"><label class="rq" for="e3">CEP</label><input type="text" id="e3" readonly inputmode="numeric" maxlength="9" placeholder="00000-000"></div>
+<div class="f"><label for="e4">Responsável pelo recebimento</label><input type="text" id="e4"></div>
+<div class="f"><label for="e5">Telefone</label><input type="tel" id="e5" placeholder="(11) 90000-0000"></div>
+<div class="f"><label class="rq" for="e6">Data limite para entrega</label><input type="date" id="e6"></div>
+<div class="f"><label for="e7">Horário de recebimento</label><input type="time" id="e7"></div>
+</div>
+
+<h2>Prioridade</h2>
+<div class="f"><div class="pr" role="radiogroup" aria-label="Prioridade">
+<label><input type="radio" name="pri" value="Urgente"><span><b class="ar" style="color:#C9372C">▲</b>Urgente <small>24 h</small></span></label>
+<label><input type="radio" name="pri" value="Média"><span><b class="ar" style="color:#E56910">=</b>Média <small>2 dias</small></span></label>
+<label><input type="radio" name="pri" value="Normal" checked><span><b class="ar" style="color:#1F845A">▼</b>Normal <small>3 dias</small></span></label>
+</div></div>
+
+<h2>Dados da carga</h2>
+<div class="f"><label class="rq" for="d1">Descrição da carga</label><input type="text" id="d1"></div>
+<div class="row">
+<div class="f"><label class="rq" for="d2">Quantidade de volumes</label><input type="number" id="d2" min="1"></div>
+<div class="f"><label class="rq" for="d3">Peso total (kg)</label><input type="number" id="d3" min="0" step="0.1"></div>
+</div>
+<div class="f"><span class="lb">Dimensões (C × L × A) em cm</span>
+<div class="dim"><input type="number" aria-label="Comprimento" placeholder="C"><span>×</span><input type="number" aria-label="Largura" placeholder="L"><span>×</span><input type="number" aria-label="Altura" placeholder="A"></div></div>
+<div class="row">
+<div class="f"><label for="d4">Tipo de embalagem</label><select id="d4"><option value="">Selecione</option><option>Caixa de papelão</option><option>Caixa azul</option><option>Caixa preta</option></select></div>
+<div class="f"><label for="d5">Suporte da carga</label><select id="d5"><option value="">Selecione</option><option>Bases cinzas</option><option>Bases laranjas</option><option>Paletes</option></select></div>
+<div class="f"><label for="d6">Quantidade de suportes</label><input type="number" id="d6" min="0"></div>
+</div>
+
+<h2>Características especiais</h2>
+<div class="f"><label for="sp">A carga possui alguma particularidade?</label><select id="sp"><option>Não</option><option>Sim</option></select>
+<div id="espec" style="display:none;margin-top:10px"><div class="chk">
+<label><input type="checkbox"> Frágil</label>
+<label><input type="checkbox"> Perecível</label>
+<label><input type="checkbox"> Químico</label>
+<label><input type="checkbox"> Refrigerada</label>
+<label><input type="checkbox"> Necessita veículo específico</label>
+<label><input type="checkbox" id="chkOutra"> Outra</label>
+</div>
+<input type="text" id="outra" aria-label="Outra particularidade" placeholder="Descreva a particularidade"></div></div>
+
+
+<h2>Descrição</h2>
+<div class="f"><textarea id="desc" aria-label="Descrição" placeholder="Informe instruções adicionais para coleta e entrega"></textarea></div>
+
+<h2>Anexos</h2>
+<div class="f">
+<div class="drop" id="drop" tabindex="0" role="button">Solte os arquivos aqui ou <u>clique para procurar</u></div>
+<input type="file" id="file" multiple hidden>
+<ul class="tags"><li>Nota fiscal</li><li>Romaneio</li><li>Fotos da carga</li><li>Documento com dimensões/peso</li><li>Outros documentos</li></ul>
+<ul class="files" id="files"></ul></div>
+
+<div class="act"><button class="b s" type="button" id="cancel">Cancelar</button><button class="b p" type="button" id="create">Criar</button></div>
+</div></div>
+<div id="toast" role="status"></div>
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)};
+function toast(t){var e=$('toast');e.textContent=t;e.style.display='block';setTimeout(function(){e.style.display='none'},2600)}
+$('chkOutra').addEventListener('change',function(){$('outra').style.display=this.checked?'block':'none'});
+function mask(el){el.addEventListener('input',function(){var v=el.value.replace(/\D/g,'').slice(0,8);el.value=v.length>5?v.slice(0,5)+'-'+v.slice(5):v})}
+mask($('c3'));mask($('e3'));
+var SAV={
+'Matriz Kyly':{e:'Rodovia SC 418, KM 3, 3215 - Centro, Pomerode - SC',c:'89107-000'},
+'Fiação Fio Puro':{e:'Final da Rua, R. Wigando Fischer - Centro, Pomerode - SC',c:'89107-000'},
+'Galpão Pedrini (Expedição)':{e:'R. Helga Pedrini, 105 - Galpão 02 - Centro, Pomerode - SC',c:'89107-000'},
+'Galpão Pomer (Expedição)':{e:'Rod. João Karsten, 8513 - Testo Central, Pomerode - SC',c:'89107-000'},
+'Galpão Kilo (ACF)':{e:'R. Helga Pedrini, 228-320 - Centro, Pomerode - SC',c:'89107-000'}};
+function lista(sel,wrap,end,cep){var el=$(sel);
+Object.keys(SAV).forEach(function(k){var o=document.createElement('option');o.textContent=k;el.appendChild(o)});
+var oo=document.createElement('option');oo.value='__outros';oo.textContent='Outros';el.appendChild(oo);
+el.addEventListener('change',function(){var v=el.value,d=SAV[v],out=v==='__outros';
+$(wrap).style.display=out?'block':'none';
+$(end).readOnly=!out;$(cep).readOnly=!out;
+$(end).value=d?d.e:'';$(cep).value=d?d.c:'';
+if(out)$(wrap).querySelector('input').focus()})}
+var cl=$('cl'),el=$('el');
+lista('cl','c1wrap','c2','c3');lista('el','e1wrap','e2','e3');
+$('sp').addEventListener('change',function(){$('espec').style.display=this.value==='Sim'?'block':'none'});
+var drop=$('drop'),file=$('file'),list=$('files'),store=[];
+function render(){list.innerHTML='';store.forEach(function(f,i){var li=document.createElement('li');var s=document.createElement('span');s.textContent=f.name;var b=document.createElement('button');b.textContent='×';b.setAttribute('aria-label','Remover '+f.name);b.onclick=function(){store.splice(i,1);render()};li.appendChild(s);li.appendChild(b);list.appendChild(li)})}
+function add(fs){for(var i=0;i<fs.length;i++)store.push(fs[i]);render()}
+drop.onclick=function(){file.click()};
+drop.onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();file.click()}};
+file.onchange=function(){add(file.files);file.value=''};
+drop.ondragover=function(e){e.preventDefault();drop.classList.add('on')};
+drop.ondragleave=function(){drop.classList.remove('on')};
+drop.ondrop=function(e){e.preventDefault();drop.classList.remove('on');add(e.dataTransfer.files)};
+var req=['resumo','cl','c2','c3','c4','c6','el','e2','e3','e6','d1','d2','d3'];
+$('create').onclick=function(){var bad=null;var r=req.slice();if(cl.value==='__outros')r.push('c1');if(el.value==='__outros')r.push('e1');r.forEach(function(id){var el=$(id);var empty=!el.value.trim();el.classList.toggle('err',empty);if(empty&&!bad)bad=el});
+if(bad){bad.focus();toast('Preencha os campos obrigatórios');return}
+var p=document.querySelector('input[name=pri]:checked').value;toast('Solicitação criada · Prioridade '+p)};
+$('cancel').onclick=function(){if(confirm('Descartar esta solicitação?'))location.reload()};
+})();
+</script>
+</body>
+</html>
